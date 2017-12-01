@@ -10,27 +10,25 @@ import sys
 
 from qrCodePrinter import QRCodePrinter
 
-_file = 'libsms4.so'
-_path = os.path.join(*(os.path.split(__file__)[:-1] + (_file,)))
-_mod = ctypes.cdll.LoadLibrary(_path)
+# _file = 'libsms4.so'
+# _path = os.path.join(*(os.path.split(__file__)[:-1] + (_file,)))
+# _mod = ctypes.cdll.LoadLibrary(_path)
+#
+# _encrypt = _mod.SM4Encrypt
+# _decrypt = _mod.SM4Decrypt
+#
+# _encrypt.argtypes = (
+#     ctypes.POINTER(ctypes.c_uint8),
+#     ctypes.c_int,
+#     ctypes.POINTER(ctypes.c_uint8),
+#     ctypes.POINTER(ctypes.c_int),
+#     ctypes.POINTER(ctypes.c_uint8)
+# )
+#
+#
+# def encrypt(key):
+#     assert isinstance(key, bytes)
 
-_encrypt = _mod.SM4Encrypt
-_decrypt = _mod.SM4Decrypt
-
-_encrypt.argtypes = (
-    ctypes.POINTER(ctypes.c_uint8),
-    ctypes.c_int,
-    ctypes.POINTER(ctypes.c_uint8),
-    ctypes.POINTER(ctypes.c_int),
-    ctypes.POINTER(ctypes.c_uint8)
-)
-
-
-def encrypt(key):
-    assert isinstance(key, bytes)
-
-
-sys.exit(0)
 
 bufsiz = 129
 sock = socket.socket()
@@ -52,7 +50,7 @@ try:
     sock, addr = sock.accept()
     print("{}:{} is connecting...".format(*addr))
     data = sock.recv(bufsiz)
-    print(type(data));
+    print(type(data))
     print("Data {} is received".format(data))
 finally:
     sock.close()
