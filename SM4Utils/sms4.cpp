@@ -1,6 +1,6 @@
-#include "sms4.h"
-#include "stdio.h"
-#include "stdlib.h"
+#include "sms4.hpp"
+#include <stdio.h>
+#include <stdlib.h>
 
 unsigned int sms4_ck[SMS4_ROUND] = {
     0x00070e15, 0x1c232a31, 0x383f464d, 0x545b6269,
