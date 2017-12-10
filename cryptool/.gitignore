@@ -1,2 +1,4 @@
 *.b2
 test.py
+*.jpg*
+sm4utils
