@@ -63,8 +63,8 @@ int decrypt(const char* inpath, const char* outpath, BYTE* key) {
 }
 
 void print_usage() {
-    std::cout<<"Usage: \n\tsm4utils -e <key-path> <unencrypted-path> <encrypted-path>"
-        "\n\tsm4utils -d <key-path> <encrypted-path> <decrypted-path>"<<std::endl;
+    std::cout<<"Usage: \n\t./sms4 -e <key-path> <unencrypted-path> <encrypted-path>"
+        "\n\t./sms4 -d <key-path> <encrypted-path> <decrypted-path>"<<std::endl;
 }
 
 int main(int argc, const char * argv[]) {
