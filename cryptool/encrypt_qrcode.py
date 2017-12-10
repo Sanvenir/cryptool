@@ -1,34 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import ctypes
-import os
 import socket
-import random
 import qrcode
-import sys
-
+import os
+from config import rnd
 from qrCodePrinter import QRCodePrinter
-
-# _file = 'libsms4.so'
-# _path = os.path.join(*(os.path.split(__file__)[:-1] + (_file,)))
-# _mod = ctypes.cdll.LoadLibrary(_path)
-#
-# _encrypt = _mod.SM4Encrypt
-# _decrypt = _mod.SM4Decrypt
-#
-# _encrypt.argtypes = (
-#     ctypes.POINTER(ctypes.c_uint8),
-#     ctypes.c_int,
-#     ctypes.POINTER(ctypes.c_uint8),
-#     ctypes.POINTER(ctypes.c_int),
-#     ctypes.POINTER(ctypes.c_uint8)
-# )
-#
-#
-# def encrypt(key):
-#     assert isinstance(key, bytes)
-
 
 bufsiz = 129
 sock = socket.socket()
@@ -37,20 +14,15 @@ port = 10028
 
 # print host, port
 
-sock.bind(("172.20.10.13", port))
-
+sock.bind((socket.gethostbyname(host), port))
 
 hostaddr, port = sock.getsockname()
 
-
-get_char = lambda num: chr(num + 48) if num < 10 else chr(num + 55)
-
-en_code = "4|{}:{}|0|{}".format(hostaddr, port, ''.join([get_char(random.randrange(16)) for _ in range(32)]))
+en_code = "4|{}:{}|0|{}".format(hostaddr, port, rnd)
 
 img = qrcode.make(en_code)
 img.save("qrcode.png")
 
-print(en_code)
 print("String to Qrcode: '{}'".format(en_code))
 QRCodePrinter(en_code).printQR()
 sock.listen(5)
@@ -59,19 +31,34 @@ try:
     sock, addr = sock.accept()
     print("{}:{} is connecting...".format(*addr))
     data = sock.recv(bufsiz)
-    print(type(data))
 
-    print("Data {} is received".format(data))
+    print("Data '{}' is received".format(data))
 
-    print("KR(16byte):", data[:16])
-    print("PK(16byte):", data[16:])
-
-    with open("KR.b2", "wb") as f:
-        f.write(data[:16])
+    print("KR(16byte): {}".format(data[:16]))
+    print("PK(113byte): {}".format(data[16:]))
 
     with open("PK.b2", "wb") as f:
         f.write(data[16:])
 
-    print ('LEN:', len(data))
+    kr_list = map(ord, data[:16])
+
+    key = ""
+    for i in range(16):
+        rnd_ch = int(rnd[2 * i:2 * i + 2], 16)
+        key += chr(rnd_ch ^ kr_list[i])
+
+    with open("K.b2", "wb") as f:
+        f.write(key)
+
+    # choose the file
+    inpath = raw_input("\nPlease input the file you want to encrypted: ")
+    inpath = inpath.strip(" ")  # trim the path
+    if os.path.exists(inpath):
+        encrypted_path = os.path.basename(inpath) + ".encrypted"
+        pipe = os.popen("./sms4 -e K.b2 {} {}".format(inpath, encrypted_path))
+        print pipe.read()
+    else:
+        print inpath, "does not exist!!!"
+    os.remove("K.b2")  # delete the temporary key file
 finally:
     sock.close()

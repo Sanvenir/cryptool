@@ -14,7 +14,7 @@
 #define CHECK_FILE_EXSIT(file, filepath) if (NULL == file) { \
                             std::cout<<"please make sure "<<filepath<<" exist;"<<std::endl; \
                             return 0; \
-                            }
+                        }
 
 //加密文件
 int encrypt(const char* inpath, const char* outpath, BYTE* key) {

@@ -2,3 +2,5 @@
 test.py
 *.jpg*
 sms4
+*.png
+*.pyc
