@@ -50,7 +50,6 @@ class QRCodePrinter():
         qrPrite.add_data(self.codeStr)
         qrPrite.make(fit=True)
         img = qrPrite.make_image()
-        # img.save('buy.png')
         imgL = img.convert("L")
         width = imgL.size[0]  
         height = imgL.size[1] 
