@@ -10,6 +10,7 @@ import struct
 
 bufsiz = 129
 sock = socket.socket()
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 host = socket.inet_ntoa(fcntl.ioctl(s.fileno(), 0x8915, struct.pack('256s', 'eth0'))[20:24])
 port = 10028
 
