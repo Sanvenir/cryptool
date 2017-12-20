@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import socket
-import qrcode
 import os
 from config import rnd
 from qrCodePrinter import QRCodePrinter
@@ -18,9 +17,6 @@ sock.bind((socket.gethostbyname(host), port))
 hostaddr, port = sock.getsockname()
 
 en_code = "4|{}:{}|1|{}".format(hostaddr, port, rnd)
-
-img = qrcode.make(en_code)
-img.save("qrcode.png")
 
 print("String to Qrcode: '{}'".format(en_code))
 QRCodePrinter(en_code).printQR()
