@@ -19,7 +19,7 @@ hostaddr, port = sock.getsockname()
 en_code = "4|{}:{}|1|{}".format(hostaddr, port, rnd)
 
 print("String to Qrcode: '{}'".format(en_code))
-QRCodePrinter(en_code).printQR()
+QRCodePrinter(en_code)
 sock.listen(5)
 
 try:
