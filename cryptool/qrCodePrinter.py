@@ -39,10 +39,6 @@ class QRCodePrinter():
         qrSave.make(fit=True)
         imgSave = qrSave.make_image()
         imgSave.save("qrcode.png")
-        try:
-            imgSave.show()
-        except:
-            print("Can't show image file, draw it on console.")
 
         ## print QR code 
         qrPrite = qrcode.QRCode(
@@ -66,6 +62,11 @@ class QRCodePrinter():
                 row.append(pixel)
             codeArray.append(row)
         self.codeArray = codeArray
+        self.printQR()
+        try:
+            imgSave.show()
+        except:
+            print("Can't show image file, draw it on console.")
 
     def printQR(self):
         for i in self.codeArray:
