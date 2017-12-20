@@ -38,7 +38,7 @@ class QRCodePrinter():
         qrSave.add_data(self.codeStr)
         qrSave.make(fit=True)
         imgSave = qrSave.make_image()
-        imgSave.save("buy.png")
+        imgSave.save("qrcode.png")
 
         ## print QR code 
         qrPrite = qrcode.QRCode(
