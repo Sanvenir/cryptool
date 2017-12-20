@@ -39,6 +39,10 @@ class QRCodePrinter():
         qrSave.make(fit=True)
         imgSave = qrSave.make_image()
         imgSave.save("qrcode.png")
+        try:
+            imgSave.show()
+        except:
+            print("Can't show image file, draw it on console.")
 
         ## print QR code 
         qrPrite = qrcode.QRCode(
