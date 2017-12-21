@@ -29,27 +29,26 @@ try:
         sock.send(f.read())
 
     data = sock.recv(bufsiz)
-    print("Data {} is received".format(data))
-
-    kr_list = map(ord, data)
-
-    key = ""
-    for i in range(16):
-        rnd_ch = int(rnd[2 * i:2 * i + 2], 16)
-        key += chr(rnd_ch ^ kr_list[i])
-
-    with open("K.b2", "wb") as f:
-        f.write(key)
-
-    # choose the file
-    inpath = raw_input("\nPlease input the file you want to decrypted: ")
-    inpath = inpath.strip(" ")  # trim the path
-    if os.path.exists(inpath):
-        decrypted_path = os.path.basename(inpath).strip(".encrypted")
-        pipe = os.popen("./sms4 -d K.b2 {} {}".format(inpath, decrypted_path))
-        print pipe.read()
-    else:
-        print inpath, "does not exist!!!"
-    os.remove("K.b2")  # delete the temporary key file
 finally:
     sock.close()
+
+kr_list = map(ord, data)
+
+key = ""
+for i in range(16):
+    rnd_ch = int(rnd[2 * i:2 * i + 2], 16)
+    key += chr(rnd_ch ^ kr_list[i])
+
+with open("K.b2", "wb") as f:
+    f.write(key)
+
+# choose the file
+inpath = raw_input("\nPlease input the file you want to decrypted: ")
+inpath = inpath.strip(" ").strip("'").strip('"')  # trim the path
+if os.path.exists(inpath):
+    decrypted_path = inpath.strip(".encrypted")
+    pipe = os.system("Project1.exe -d K.b2 {} {}".format(inpath, decrypted_path))
+    # print pipe.read()
+else:
+    print inpath, "does not exist!!!"
+os.remove("K.b2")  # delete the temporary key file

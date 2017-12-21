@@ -77,7 +77,10 @@ class QRCodePrinter():
                 else:
                     str+=self.black
             # str += "\n"
-            print(str)
+            if "Windows" in self.platform:
+                print(str.decode('utf-8').encode('gbk'))
+            else:
+                print(str)
 
 if __name__=="__main__":
     pr = QRCodePrinter("testtesttesttesttesttesttesttesttesttest")
